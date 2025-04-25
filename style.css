@@ -1,0 +1,150 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* 畫布在最底層 */
+}
+
+/* iframe 樣式 */
+iframe {
+  position: relative;
+  z-index: 2; /* iframe 在第二層 */
+  width: 100%;
+  height: 80vh;
+  border: none;
+  margin-top: 60px; /* 增加與選單的距離 */
+}
+
+/* 選單樣式 */
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu li {
+  margin: 0;
+  padding: 10px 20px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.menu a i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.menu a:hover {
+  color: #007BFF;
+}
+
+/* 子選單樣式 */
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu li:hover .submenu {
+  display: block;
+}
+
+.submenu li {
+  padding: 10px 20px;
+}
+
+.submenu a {
+  color: #333;
+}
+
+.submenu a:hover {
+  color: #007BFF;
+}
+
+/* 氣泡容器樣式 */
+#bubble-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; /* 使用 flexbox 排列 */
+  flex-wrap: wrap; /* 允許換行 */
+  gap: 20px; /* 氣泡之間的間距 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  z-index: 10;
+}
+
+/* 氣泡樣式 */
+.bubble {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background: #007BFF;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: bounce 1.5s infinite;
+}
+
+/* 為每個氣泡設置不同的動畫延遲 */
+.bubble:nth-child(1) {
+  animation-delay: 0s;
+}
+.bubble:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.bubble:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.bubble:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.bubble:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.bubble:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.bubble:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+/* 跳動動畫 */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hidden {
+  display: none !important; /* 確保元素完全隱藏 */
+}

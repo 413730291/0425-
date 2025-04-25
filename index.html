@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+
+    <style>
+      /* 選單樣式 */
+      .menu {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 3;
+      }
+
+      .menu li {
+        margin: 0 10px;
+        position: relative;
+      }
+
+      .menu a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+      }
+
+      .menu a:hover {
+        color: #007BFF;
+      }
+
+      /* 氣泡容器樣式 */
+      #bubble-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex; /* 使用 flexbox 排列 */
+        flex-wrap: wrap; /* 允許換行 */
+        gap: 20px; /* 氣泡之間的間距 */
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        z-index: 10;
+      }
+
+      /* 氣泡樣式 */
+      .bubble {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        background: #007BFF;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: bounce 1.5s infinite;
+      }
+
+      /* 為每個氣泡設置不同的動畫延遲 */
+      .bubble:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .bubble:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .bubble:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .bubble:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      .bubble:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+      .bubble:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+      .bubble:nth-child(7) {
+        animation-delay: 0.6s;
+      }
+
+      /* 跳動動畫 */
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* iframe 樣式 */
+      iframe {
+        width: 100%;
+        height: 80vh;
+        border: none;
+        margin-top: 80px;
+        z-index: 2;
+        position: relative;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <ul class="menu" id="menu">
+      <li>
+        <a href="#" onclick="hideIframe()">
+          <i class="fas fa-home menu-icon"></i> 首頁
+        </a>
+      </li>
+      <li>
+        <a href="#about" onclick="loadIframe('about.html')">
+          <i class="fas fa-user menu-icon"></i> 自我介紹
+        </a>
+      </li>
+      <li>
+        <a href="#portfolio">
+          <i class="fas fa-briefcase menu-icon"></i> 作品集
+        </a>
+        <ul class="submenu">
+          <li>
+            <a href="#" onclick="loadIframe('https://hackmd.io/@chi10199/HkRcik_ike')">
+              <i class="fas fa-calendar-week submenu-icon"></i> 第一周
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="loadIframe('https://hackmd.io/@chi10199/SJD4wW-21g')">
+              <i class="fas fa-calendar-week submenu-icon"></i> 第二周
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#quiz" onclick="loadIframe('quiz.html')">
+          <i class="fas fa-question-circle menu-icon"></i> 測驗卷
+        </a>
+      </li>
+      <li>
+        <a href="#tutorial" onclick="loadIframe('tutorial.html')">
+          <i class="fas fa-video menu-icon"></i> 教學影片
+        </a>
+      </li>
+    </ul>
+
+    <div id="bubble-container">
+      <div class="bubble">程</div>
+      <div class="bubble">式</div>
+      <div class="bubble">設</div>
+      <div class="bubble">計</div>
+      <div class="bubble">與</div>
+      <div class="bubble">實</div>
+      <div class="bubble">習</div>
+    </div>
+
+    <!-- iframe 用於嵌入網頁 -->
+    <iframe id="contentFrame" src=""></iframe>
+
+    <!-- sketch.js 畫布 -->
+    <script src="sketch.js"></script>
+
+    <script>
+      // 動態加載 iframe 的內容
+      function loadIframe(url) {
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = url; // 設置 iframe 的 src
+        iframe.style.display = 'block'; // 顯示 iframe
+        hideBubble();
+      }
+
+      // 隱藏 iframe 並顯示氣泡
+      function hideIframe() {
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = ''; // 清空 iframe 的 src
+        iframe.style.display = 'none'; // 隱藏 iframe
+        showBubble();
+      }
+
+      // 顯示氣泡
+      function showBubble() {
+        const bubble = document.getElementById('bubble-container');
+        bubble.classList.remove('hidden');
+      }
+
+      // 隱藏氣泡
+      function hideBubble() {
+        const bubble = document.getElementById('bubble-container');
+        bubble.classList.add('hidden');
+      }
+    </script>
+  </body>
+</html>
